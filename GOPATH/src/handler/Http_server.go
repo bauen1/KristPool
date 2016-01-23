@@ -2,17 +2,23 @@ package handler
 
 import (
 	"net/http"
-	//"html"
 	"fmt"
 	"strings"
 	"os"
 	"io/ioutil"
 )
 
+func replaceData(s string) string{
+	//Later I will replace things like $address, $MHs, $active_miners and so on here
+	s = strings.Replace(s,"$test","This is a test message!",-1)
+	return s
+}
+
 func HandleHTTP() {
 	http.HandleFunc("/",func(w http.ResponseWriter, r *http.Request){
 		if _, err := os.Stat("html/" + r.URL.Path); err == nil {
-
+			dat,_ := ioutil.ReadFile("html/" + r.URL.Path)
+			fmt.Fprint(w,replaceData(string(dat)))
 		} else {
 			if _, err := os.Stat("html/errors/404.html"); err == nil {
 				dat,_ := ioutil.ReadFile("html/errors/404.html")
