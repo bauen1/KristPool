@@ -1,4 +1,4 @@
-package Servers
+package handler
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func main() {
+func HandleHTTP() {
 	http.HandleFunc("/test",func(w http.ResponseWriter, r *http.Request){
 		result := "Your Data:\n"
 		data := r.URL.RawQuery
@@ -18,5 +18,6 @@ func main() {
 		fmt.Fprint(w,html.EscapeString(result))
 		fmt.Println("Request for /test with data " + r.URL.RawQuery)
 	})
-	go http.ListenAndServe(":8080",nil)
+	http.ListenAndServe(":8080",nil)
+	for {}
 }
