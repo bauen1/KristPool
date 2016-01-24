@@ -38,6 +38,12 @@ func writeLists() { //FIXME: This exports it to an infinite long string.(See min
 		userArray[i][0] = users[i].name
 		userArray[i][1] = users[i].password
 	}
+	a,_ = json.Marshal(userArray)
+	bytes = []byte(string(a))
+	err = ioutil.WriteFile("users.json",bytes,0644)
+	if(err != nil){
+		fmt.Println("Error while saving users")
+	}
 }
 func readFromConn(c net.Conn) string{
 	message,_ := bufio.NewReader(c).ReadString('\n')
